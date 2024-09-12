@@ -6,11 +6,7 @@ import com.hvl.dat250.model.Vote;
 import com.hvl.dat250.model.VoteOption;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class PollManager {
@@ -18,6 +14,14 @@ public class PollManager {
     private final Map<Integer, Poll> polls = new HashMap<>();
     private final Map<Integer, VoteOption> voteOptions = new HashMap<>();
     private final Map<Integer, Vote> votes = new HashMap<>();
+
+    public PollManager() {
+        User user1 = new User();
+        user1.setId(1);
+        user1.setUsername("pawel");
+        user1.setEmail("pawelskorupa@test.test");
+        users.put(user1.getId(), user1);
+    }
 
     private int userIdCounter = 1;
     private int pollIdCounter = 1;
@@ -44,17 +48,21 @@ public class PollManager {
 
     public Poll createPoll(Poll poll) {
         poll.setId(pollIdCounter++);
-        polls.put(poll.getId(), poll);
+        poll.getOptions().forEach(opt -> {
+            opt.setId(voteOptionIdCounter++);
+            voteOptions.put(opt.getId(), opt);
+        });
         User user = poll.getCreator();
-        Set<Integer> polls = user.getCreatedPolls();
+        Set<Integer> userPolls = user.getCreatedPolls();
         User person =  getUserById(user.getId());
         user.setEmail(person.getEmail());
         user.setVotes(person.getVotes());
         user.setUsername(person.getUsername());
         user.setId(person.getId());
         poll.setCreator(user);
-        polls.add(poll.getId());
-        user.setCreatedPolls(polls);
+        userPolls.add(poll.getId());
+        user.setCreatedPolls(userPolls);
+        polls.put(poll.getId(), poll);
         return poll;
     }
 
