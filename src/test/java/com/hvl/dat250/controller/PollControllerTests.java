@@ -69,7 +69,7 @@ public class PollControllerTests {
     public void testCreatePoll() throws Exception {
         String pollJson = objectMapper.writeValueAsString(poll1);
 
-        mockMvc.perform(post("/polls")
+        mockMvc.perform(post("/api/polls")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(pollJson))
                 .andExpect(status().isOk())
@@ -80,7 +80,7 @@ public class PollControllerTests {
 
     @Test
     public void testListPolls() throws Exception {
-        mockMvc.perform(get("/polls")
+        mockMvc.perform(get("/api/polls")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -93,7 +93,7 @@ public class PollControllerTests {
 
     @Test
     public void testGetPollById() throws Exception {
-        mockMvc.perform(get("/polls/1")
+        mockMvc.perform(get("/api/polls/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
@@ -103,7 +103,7 @@ public class PollControllerTests {
 
     @Test
     public void testDeletePoll() throws Exception {
-        mockMvc.perform(delete("/polls/1")
+        mockMvc.perform(delete("/api/polls/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 

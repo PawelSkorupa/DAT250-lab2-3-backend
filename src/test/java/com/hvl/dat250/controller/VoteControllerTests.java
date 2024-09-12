@@ -65,7 +65,7 @@ public class VoteControllerTests {
     public void testCastVote() throws Exception {
         String voteJson = objectMapper.writeValueAsString(vote1);
 
-        mockMvc.perform(post("/votes")
+        mockMvc.perform(post("/api/votes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(voteJson))
                 .andExpect(status().isOk())
@@ -77,7 +77,7 @@ public class VoteControllerTests {
 
     @Test
     public void testListVotes() throws Exception {
-        mockMvc.perform(get("/votes")
+        mockMvc.perform(get("/api/votes")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -90,7 +90,7 @@ public class VoteControllerTests {
 
     @Test
     public void testGetVoteById() throws Exception {
-        mockMvc.perform(get("/votes/1")
+        mockMvc.perform(get("/api/votes/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))

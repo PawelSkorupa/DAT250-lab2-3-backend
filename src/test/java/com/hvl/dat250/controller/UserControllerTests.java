@@ -47,7 +47,7 @@ public class UserControllerTests {
     public void testCreateUser() throws Exception {
         String userJson = "{\"id\":1,\"username\":\"John Doe\",\"email\":\"john.doe@example.com\"}";
 
-        mockMvc.perform(post("/users")
+        mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
                 .andExpect(status().isOk())
@@ -58,7 +58,7 @@ public class UserControllerTests {
 
     @Test
     public void testListUsers() throws Exception {
-        mockMvc.perform(get("/users")
+        mockMvc.perform(get("/api/users")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -71,7 +71,7 @@ public class UserControllerTests {
 
     @Test
     public void testGetUserById() throws Exception {
-        mockMvc.perform(get("/users/1")
+        mockMvc.perform(get("/api/users/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
